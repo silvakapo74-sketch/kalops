@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {ArrowLeft,ArrowUpRight,Check,Minus,Plus,ShoppingBag,Truck,PackageCheck} from 'lucide-react';
 import ProductImage from './ProductImage.jsx';
+import ResalePrice from './ResalePrice.jsx';
 
 const money=n=>n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 
@@ -25,7 +26,7 @@ export default function ProductPage({product,products,onAdd,drawerOpen}){
         <p className="product-detail-kind">{product.kind} <span>· {product.size}</span></p>
         <p className="product-detail-intro">{product.desc.split('. ')[0]}.</p>
         <ul className="product-benefits">{product.benefits.map(benefit=><li key={benefit}><Check size={14}/>{benefit}</li>)}</ul>
-        <div className="pdp-price"><span>PREÇO DE ATACADO</span><div><strong>{money(product.price)}</strong><small>/ unidade</small></div><p>Preço sugerido de revenda a partir de {money(product.retail)}</p></div>
+        <div className="pdp-price"><span>PREÇO DE ATACADO</span><div><strong>{money(product.price)}</strong><small>/ unidade</small></div></div><ResalePrice value={product.retail}/>
         <form className="product-purchase" onSubmit={submit} noValidate>
           <label htmlFor="product-quantity">Quantidade <span>Mínimo de 10 unidades por produto</span></label>
           <div className="purchase-quantity-row">
