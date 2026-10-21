@@ -46,3 +46,36 @@ Valide o primeiro deploy no painel do Netlify e abra uma página de produto dire
 - Fontes empacotadas localmente; não requer Google Fonts.
 
 O layout e o fluxo de orçamento foram validados localmente. As cinco imagens tratadas com fundo branco foram integradas e verificadas no layout; preserve os arquivos originais do proprietário para futuras edições. Publicação e conexão ao domínio são etapas separadas.
+
+## Pedidos e administração
+
+A loja recebe solicitações em `/finalizar-pedido`; a equipe consulta em `/admin`.
+O painel permite buscar, filtrar, consultar clientes e mudar o status das solicitações.
+São orçamentos: não há cobrança online, confirmação automática de estoque ou cálculo automático de frete.
+
+### Ativar no Netlify
+
+1. Nas variáveis de ambiente do projeto, crie `KALOPS_ADMIN_PASSWORD` com uma senha exclusiva de pelo menos 16 caracteres (prefira uma senha gerada pelo gerenciador de senhas). Habilite o escopo **Functions** e o contexto **Production**; se sua conta não oferece seleção de escopos, use todos.
+2. Faça um novo deploy para aplicar a variável nas funções.
+3. Abra `/admin` e entre com essa senha. Não coloque a senha no código, em variável `VITE_*` ou em mensagens no chat.
+4. Faça uma solicitação de teste pela loja, confirme a chegada ao painel e marque-a como cancelada após a validação.
+
+As funções usam **Netlify Blobs** (`kalops-wholesale-orders`), com credenciais fornecidas automaticamente pela hospedagem. Não é necessário criar token de acesso pessoal nem banco separado. Deploys do código não apagam pedidos. O painel não funciona como backend em hospedagens somente estáticas ou no Vite isolado. Se a senha não estiver configurada, o recebimento direto permanece desabilitado e o cliente pode usar o resumo para atendimento pelo Instagram.
+
+### Operação e segurança
+
+- Sessão assinada válida por 8 horas, cookie `HttpOnly`, `Secure`, `SameSite=Strict`. Alterar a senha e republicar invalida sessões anteriores. A senha é compartilhada pela equipe autorizada; esta versão não tem contas individuais, níveis de permissão, recuperação por e-mail ou autenticação em dois fatores.
+- Dados de cliente só são retornados pela API administrativa autenticada. A API pública devolve protocolo, itens e valores da própria solicitação.
+- Valores são recalculados no servidor a partir do catálogo, com mínimo de 10 e máximo de 10.000 unidades por produto. O mesmo identificador e conteúdo não geram pedidos duplicados nas tentativas de reenvio.
+- Rate limits nas funções e validação de origem/JSON protegem os endpoints. Falhas no armazenamento não são apresentadas como sucesso.
+- Status: nova solicitação, em contato, confirmado, enviado, cancelado. Esses status são operacionais e não comprovam pagamento.
+- Paginação de até 50 solicitações no painel; indicadores, pesquisa e lista de clientes consideram apenas os pedidos carregados, como indicado no painel. Use **Carregar mais solicitações** para ampliar a consulta.
+- Pedidos são mantidos no armazenamento até remoção pela equipe. Para atender uma solicitação de exclusão, localize o protocolo e remova sua chave `orders/<id>` no armazenamento Blobs do Netlify. Exportação, exclusão pelo painel e políticas automáticas de retenção não estão implementadas.
+- A política apresentada ao cliente está em `/privacidade`. O formulário pede apenas dados de contato e localização necessários ao orçamento, sem CPF/CNPJ obrigatório nem dados de cartão.
+
+### Validação
+
+- `node --test scripts/check-orders-api.mjs`: handlers reais com armazenamento isolado; autenticação, sessão, origem, validação, preços, idempotência, status e falhas.
+- `node scripts/check-order-flow.mjs` com Vite em execução: navegador ligado aos handlers reais e armazenamento de teste; envio → login → consulta → alteração de status → recarga, sem criar pedidos na loja publicada.
+- `node scripts/check.cjs` e `node scripts/check-product-layout.cjs`: regressão da loja e responsividade.
+- `npm run build`: frontend, páginas diretas e configuração das funções para o deploy. O funcionamento do armazenamento e das regras da plataforma deve ser confirmado com o pedido de teste após ativar no Netlify.

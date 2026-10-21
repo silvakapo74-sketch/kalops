@@ -9,3 +9,5 @@
 - Production repository: `silvakapo74-sketch/kalops`, branch `main`. `netlify.toml` sets Node 24, build command `npm run build`, and output directory `dist`.
 - The initial repository push is complete. Linking the existing Netlify site to this repository requires the owner to authorize the GitHub integration in Netlify. Do not claim automatic deployment is active or a release is live until there is evidence of that connection and a successful deploy.
 - Never request credential values in chat or commit credentials, caches, or build output.
+- Order collection uses Netlify Functions and Netlify Blobs. Administrative access requires `KALOPS_ADMIN_PASSWORD` (at least 16 characters) configured by the owner in Netlify's Functions environment, followed by a deploy. Never put it in a `VITE_*` variable or browser code.
+- For order/authentication changes, run `node --test scripts/check-orders-api.mjs` and, with Vite running, `node scripts/check-order-flow.mjs`. Keep tests isolated from production customer records. Preserve server-side pricing, authentication, same-origin checks, private responses and idempotency.

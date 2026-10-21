@@ -1,1 +1,4 @@
+/api/orders /.netlify/functions/orders 200
+/api/admin/session /.netlify/functions/admin-session 200
+/api/admin/orders /.netlify/functions/admin-orders 200
 /* /index.html 200

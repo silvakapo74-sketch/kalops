@@ -13,3 +13,10 @@ for(const product of products){
   await writeFile(resolve(directory,'index.html'),html);
 }
 console.log('Created '+products.length+' product page entrypoints.');
+for (const [route,title] of [['admin','Administração'],['finalizar-pedido','Enviar pedido'],['privacidade','Privacidade']]) {
+  const directory=resolve(dist,route);
+  await mkdir(directory,{recursive:true});
+  let html=shell.replace(/<title>.*?<\/title>/, '<title>'+title+' | Kalops</title>');
+  if(route!=='privacidade')html=html.replace('</head>','<meta name="robots" content="noindex,nofollow"/></head>');
+  await writeFile(resolve(directory,'index.html'),html);
+}
