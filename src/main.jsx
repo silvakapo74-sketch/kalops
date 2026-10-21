@@ -14,15 +14,16 @@ import ResalePrice from './ResalePrice.jsx';
 import CheckoutPage from './CheckoutPage.jsx';
 import AdminPage from './AdminPage.jsx';
 import PrivacyPage from './PrivacyPage.jsx';
-import {BrowserRouter,Link,useLocation,useNavigate,useNavigationType} from 'react-router-dom';
-import {usePageMotion,usePresence,useReducedMotion} from './storefront-motion.js';
+import {BrowserRouter,useLocation,useNavigationType} from 'react-router-dom';
+import {usePageMotion,usePresence,useReducedMotion,useMotionNavigate,useCatalogMotion,usePressFeedback} from './storefront-motion.js';
 import './motion.css';
+import Link from './StoreLink.jsx';
 const money=n=>n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 
 const normalizeQuantity=value=>{const n=Number(value);return Number.isFinite(n)?Math.min(999999,Math.max(1,Math.floor(n))):1};
 function restoreCart(){try{const saved=JSON.parse(localStorage.getItem('kalops-cart')||'{}');if(!saved||typeof saved!=='object'||Array.isArray(saved))return {};return Object.fromEntries(products.filter(p=>typeof saved[p.id]==='number'&&Number.isFinite(saved[p.id])&&saved[p.id]>0).map(p=>[p.id,normalizeQuantity(saved[p.id])]))}catch{return {}}}
 function App(){
-const location=useLocation(),navigate=useNavigate(),navigationType=useNavigationType();
+const location=useLocation(),navigate=useMotionNavigate(),navigationType=useNavigationType();
 const currentPath=location.pathname.replace(/\/+$/,'')||'/';
 const activeProduct=products.find(p=>p.path===currentPath);
 const isHome=currentPath==='/';
@@ -45,6 +46,8 @@ useEffect(()=>{
   return()=>{cancelAnimationFrame(frame);scrollPositions.current.set(location.key,window.scrollY);};
 },[location.key,location.pathname,location.hash]);
 const [filter,setFilter]=useState('Todos os produtos'),[query,setQuery]=useState(''),[sort,setSort]=useState('Destaques'),[cart,setCart]=useState(restoreCart),[drawer,setDrawer]=useState(false),[menu,setMenu]=useState(false),[toast,setToast]=useState(''),[copied,setCopied]=useState(false),[summaryShown,setSummaryShown]=useState(false);
+useCatalogMotion(currentPath+'|'+filter+'|'+query+'|'+sort,isAdmin||reducedMotion);
+usePressFeedback(isAdmin||reducedMotion);
 const drawerPresent=usePresence(drawer,reducedMotion),menuPresent=usePresence(menu,reducedMotion);
 const [addedProduct,setAddedProduct]=useState(null);
 useEffect(()=>{if(!addedProduct)return;const timer=setTimeout(()=>setAddedProduct(null),1600);return()=>clearTimeout(timer)},[addedProduct]);
@@ -78,4 +81,5 @@ return <><div className="announcement">CUIDADO QUE IMPRESSIONA. PARCERIAS QUE CR
 {drawerPresent&&<div className={'overlay'+(!drawer?' is-closing':'')} inert={!drawer?true:undefined} aria-hidden={!drawer?true:undefined} onClick={()=>setDrawer(false)}><aside className="cart-drawer" role="dialog" aria-modal="true" aria-label="Meu pedido" onClick={e=>e.stopPropagation()}><div className="drawer-heading"><div><span>SEU PRÓXIMO SUCESSO DE VENDAS</span><h2>Meu pedido <i>({count})</i></h2></div><button className="icon-button" onClick={()=>setDrawer(false)} aria-label="Fechar pedido"><X/></button></div>{!selected.length?<div className="empty"><ShoppingBag size={38}/><h3>Uma boa parceria começa aqui.</h3><p>Escolha seus produtos para montar um orçamento.</p><button className="button green" onClick={()=>{setDrawer(false);navigate('/#catalogo')}}>Explorar produtos <ArrowRight size={18}/></button></div>:<><p className="cart-note">Mínimo de 10 unidades por produto. Frete e disponibilidade serão confirmados pela equipe Kalops.</p><div className="cart-items">{selected.map(p=><div className="cart-item" key={p.id}><ProductImage product={p}/><div><h3>{p.name}</h3><span>{money(p.price)} / un.</span><div className="quantity"><button aria-label={'Diminuir '+p.name} onClick={()=>setCart(c=>({...c,[p.id]:Math.max(1,c[p.id]-1)}))}><Minus size={13}/></button><input aria-label={'Quantidade de '+p.name} type="number" inputMode="numeric" min="1" max="999999" step="1" value={cart[p.id]} onChange={e=>setCart(c=>({...c,[p.id]:normalizeQuantity(e.target.value)}))}/><button aria-label={'Aumentar '+p.name} onClick={()=>add(p,1)}><Plus size={13}/></button></div>{cart[p.id]<10&&<small className="error">Adicione mais {10-cart[p.id]} un. para o atacado.</small>}</div><div className="item-end"><b>{money(p.price*cart[p.id])}</b><button onClick={()=>setCart(c=>{let next={...c};delete next[p.id];return next})}>Remover</button></div></div>)}</div><div className="cart-total"><span>Total dos produtos</span><strong>{money(total)}</strong></div><small className="cart-disclaimer">Valores do catálogo enviado. Orçamento sujeito à confirmação de preços e estoque. Frete não incluso.</small><button disabled={!valid} className="button green full" onClick={()=>{setDrawer(false);navigate('/finalizar-pedido')}}>Enviar pedido <ArrowUpRight size={18}/></button><button disabled={!valid} className="button green full order-copy-button" onClick={copy}>{copied?<><Check size={18}/>Pedido copiado</>:<><Copy size={18}/>Copiar pedido para orçamento</>}</button>{summaryShown&&<div className="order-summary"><textarea ref={summaryField} readOnly aria-label="Resumo do pedido" value={summary()} onFocus={e=>e.currentTarget.select()}/><a className="button green full" href="https://www.instagram.com/kalopscosmeticos/" target="_blank" rel="noreferrer">Enviar pelo Instagram <ArrowUpRight size={18}/></a><small>Cole o resumo em uma mensagem para a Kalops.</small></div>}</>}</aside></div>}
 
 </>}
-createRoot(document.getElementById('root')).render(<BrowserRouter><App/></BrowserRouter>);
+// Native View Transitions must capture the committed route inside flushSync.
+createRoot(document.getElementById('root')).render(<BrowserRouter useTransitions={false}><App/></BrowserRouter>);

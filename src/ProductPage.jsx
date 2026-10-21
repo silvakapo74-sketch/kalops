@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
+import Link from './StoreLink.jsx';
 import {ArrowLeft,ArrowUpRight,Check,Minus,Plus,ShoppingBag,Truck,PackageCheck} from 'lucide-react';
 import ProductImage from './ProductImage.jsx';
 import ResalePrice from './ResalePrice.jsx';

@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Link} from 'react-router-dom';
+import Link from './StoreLink.jsx';
 import {ArrowLeft, ArrowUpRight, Check, LoaderCircle, LockKeyhole, ShoppingBag} from 'lucide-react';
 import ProductImage from './ProductImage.jsx';
 import './checkout.css';
