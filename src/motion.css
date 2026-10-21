@@ -1,0 +1,61 @@
+/* Brief, interruptible motion; original product photographs remain untouched. */
+:root{--ease-out:cubic-bezier(.22,1,.36,1);--ease-ui:cubic-bezier(.2,.7,.2,1)}
+body:not(.kalops-admin-mode) :is(button,a){-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+body:not(.kalops-admin-mode) :is(.button,.add-button,.bag-button,.icon-button,.tabs button,.quantity button,.pdp-quantity button,.mobile-order-bar button,.product-purchase-bar button){transition:transform 180ms var(--ease-out),background-color 200ms ease,color 200ms ease,border-color 200ms ease,box-shadow 220ms ease}
+body:not(.kalops-admin-mode) :is(.button,.add-button,.bag-button,.icon-button,.tabs button,.quantity button,.pdp-quantity button,.mobile-order-bar button,.product-purchase-bar button):not(:disabled):active{transform:scale(.97)}
+body:not(.kalops-admin-mode) :is(.button,.product-title,.back-to-products,.related-card,.add-button) svg{transition:transform 230ms var(--ease-out)}
+.button{position:relative;isolation:isolate}
+.button:focus-visible,.add-button:focus-visible{outline:2px solid #8c7861;outline-offset:4px;box-shadow:0 0 0 5px #b4a38b24}
+.search{transition:border-color 200ms,box-shadow 200ms,background-color 200ms}
+.search:focus-within{border-color:#8f8172;background:#fff;box-shadow:0 0 0 3px #b4a38b18}
+.product-visual,.related-image{transition:box-shadow 280ms var(--ease-out),border-color 200ms;}
+.view-product{transform:translateY(8px);transition:opacity 200ms ease,transform 240ms var(--ease-out)}
+.product-visual:focus-visible .view-product{opacity:1;transform:translateY(0)}
+.product-card{animation:kalops-card-in 360ms var(--ease-out) backwards;animation-delay:calc(var(--card-index,0)*35ms)}
+.add-button.is-added,.add-button.is-added:hover{background:#242824;color:#fff;border-color:#242824}
+.add-button.is-added svg{animation:kalops-check-in 260ms var(--ease-out)}
+.bag-button b,.mobile-order-bar b{animation:kalops-count-in 300ms var(--ease-out)}
+.pdp-add-button.is-added{background:#30372f}.pdp-add-button.is-added>svg:first-child{animation:kalops-check-in 260ms var(--ease-out)}
+.overlay{background:#17151270;animation:kalops-backdrop-in 220ms ease both;overflow:hidden}
+.overlay>.cart-drawer{animation:kalops-drawer-in 360ms var(--ease-out) both;overscroll-behavior:contain}
+.overlay.is-closing{pointer-events:none;animation:kalops-backdrop-out 220ms ease both}
+.overlay.is-closing>.cart-drawer{animation:kalops-drawer-out 220ms var(--ease-ui) both}
+.toast{animation:kalops-toast-in 300ms var(--ease-out) both}
+.mobile-order-bar,.product-purchase-bar{animation:kalops-bar-in 300ms var(--ease-out) both}
+.checkout-layout,.checkout-success,.order-summary{animation:kalops-card-in 360ms var(--ease-out) backwards}
+@media(hover:hover) and (pointer:fine){
+  .button:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 7px 18px #17151220}
+  .button.light:hover{background:#fff}.button.green:not(:disabled):hover{background:#34302b}
+  .button:hover svg:last-child,.product-title:hover svg,.related-card:hover h3 svg{transform:translate(2px,-2px)}
+  .back-to-products:hover svg{transform:translateX(-3px)}
+  .product-visual:hover,.related-card:hover .related-image{box-shadow:0 12px 25px -15px #17151266;border-color:#a99b8c}
+  .product-visual:hover .view-product{transform:translateY(0)}
+  .add-button:not(:disabled):hover{box-shadow:0 5px 14px #17151212}.add-button:not(.is-added):hover svg{transform:rotate(90deg)}
+  .bag-button:hover{background:#eae4dc}.bag-button{padding:9px 11px;border-radius:5px}
+  .icon-button:hover,.quantity button:hover,.pdp-quantity button:not(:disabled):hover{background:#eae4dc}
+  .tabs button:not(.active):hover{background:#eae4dc}
+  header nav a{position:relative;padding:8px 0}
+  header nav a:after{content:'';position:absolute;left:0;bottom:0;width:100%;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform 220ms var(--ease-out)}
+  header nav a:hover:after,header nav a:focus-visible:after{transform:scaleX(1)}
+}
+@media(max-width:700px){
+  header nav.open{transform-origin:top;animation:kalops-menu-in 260ms var(--ease-out) both;box-shadow:0 18px 25px -20px #17151260}
+  header nav.open.is-closing{pointer-events:none;animation:kalops-menu-out 220ms ease both}
+  .mobile-menu svg{animation:kalops-check-in 180ms var(--ease-out)}
+}
+@keyframes kalops-card-in{from{opacity:0;translate:0 10px}to{opacity:1;translate:0 0}}
+@keyframes kalops-count-in{0%{transform:scale(.8)}55%{transform:scale(1.15)}100%{transform:scale(1)}}
+@keyframes kalops-check-in{from{opacity:.3;transform:scale(.65)}to{opacity:1;transform:scale(1)}}
+@keyframes kalops-backdrop-in{from{opacity:0}to{opacity:1}}
+@keyframes kalops-backdrop-out{from{opacity:1}to{opacity:0}}
+@keyframes kalops-drawer-in{from{transform:translateX(100%)}to{transform:translateX(0)}}
+@keyframes kalops-drawer-out{from{transform:translateX(0)}to{transform:translateX(100%)}}
+@keyframes kalops-toast-in{from{opacity:0;translate:0 14px}to{opacity:1;translate:0 0}}
+@keyframes kalops-bar-in{from{opacity:0;translate:0 12px}to{opacity:1;translate:0 0}}
+@keyframes kalops-menu-in{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes kalops-menu-out{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-8px)}}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  body:not(.kalops-admin-mode) :is(.button,.add-button,.bag-button,.icon-button,.tabs button,.quantity button,.pdp-quantity button,.mobile-order-bar button,.product-purchase-bar button):not(:disabled):active{transform:none}
+}

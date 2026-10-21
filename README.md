@@ -79,3 +79,9 @@ As funções usam **Netlify Blobs** (`kalops-wholesale-orders`), com credenciais
 - `node scripts/check-order-flow.mjs` com Vite em execução: navegador ligado aos handlers reais e armazenamento de teste; envio → login → consulta → alteração de status → recarga, sem criar pedidos na loja publicada.
 - `node scripts/check.cjs` e `node scripts/check-product-layout.cjs`: regressão da loja e responsividade.
 - `npm run build`: frontend, páginas diretas e configuração das funções para o deploy. O funcionamento do armazenamento e das regras da plataforma deve ser confirmado com o pedido de teste após ativar no Netlify.
+
+## Interações da loja
+
+`src/motion.css` e `src/storefront-motion.js` controlam respostas ao toque/hover, confirmação ao adicionar produtos, entrada de páginas e abertura/fechamento do carrinho e menu. Usam CSS/Web Animations nativos, sem biblioteca adicional. A saída do carrinho mantém apenas uma camada visual inerte por 220 ms; foco e navegação são liberados imediatamente. `prefers-reduced-motion` é respeitado, inclusive quando alterado com a página aberta. Fotografias mantêm as proporções, sem zoom ou recorte.
+
+Com o Vite em execução, `node scripts/check-motion.cjs` verifica animações, fechamento/reabertura rápida, foco, navegação e redução de movimento em celular e desktop.
