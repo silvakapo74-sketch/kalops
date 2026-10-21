@@ -1,0 +1,41 @@
+{
+  "source": "orion.zip enviado pelo proprietário da Kalops",
+  "treatment": "Nenhum. Bytes originais preservados; extensão ajustada ao formato real.",
+  "images": {
+    "orion": {
+      "file": "orion.webp",
+      "originalFilename": "orion.png",
+      "width": 1000,
+      "height": 1000,
+      "sha256": "5a0a355f0d536ec68cf3a94da586052fa72f621ac79b665de7e0da7a5c4c5ff8"
+    },
+    "oleo": {
+      "file": "oleo.jpg",
+      "originalFilename": "oleo.png",
+      "width": 1000,
+      "height": 750,
+      "sha256": "ab5204103778b98784529f58978471df453755e936dc35fdee62f53656663261"
+    },
+    "ice": {
+      "file": "ice.jpg",
+      "originalFilename": "shampo.png",
+      "width": 750,
+      "height": 1000,
+      "sha256": "7c9fdaa9296bf8791007025608f01248d9f3378a07abdf20b993a9dba61d9e07"
+    },
+    "stone": {
+      "file": "stone.jpg",
+      "originalFilename": "pomada.png",
+      "width": 667,
+      "height": 1000,
+      "sha256": "fb1714cedc7fe196e385d6dec238bf6db84cabb6e7413219306f2dced35b1ef0"
+    },
+    "leave": {
+      "file": "leave.webp",
+      "originalFilename": "leavein.png",
+      "width": 667,
+      "height": 1000,
+      "sha256": "70037f9e02d51fcd14f5bdb195dd60a5dafa0682ddbee87b6cb132af4ad6f169"
+    }
+  }
+}

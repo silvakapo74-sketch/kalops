@@ -38,7 +38,7 @@ Valide o primeiro deploy no painel do Netlify e abra uma página de produto dire
 
 - Preços, condições e descrições transcritos do catálogo fornecido. Sujeitos a confirmação comercial.
 - Logotipos SVG oficiais fornecidos pelo proprietário. Paleta do manual: preto, branco e off-white `#f2ede7`.
-- Cinco imagens individuais foram preparadas a partir das fotografias enviadas pelo proprietário no chat. Os anexos inline foram editados com imagegen para fundo branco; os arquivos em `public/products/individual/` são derivados editados, não cópias byte a byte nem downloads do site oficial. O tratamento foi comparado visualmente com os anexos; não garante identidade de cada pixel ou microtexto.
+- As cinco fotografias em `public/products/originals/` foram extraídas de `orion.zip`, enviado pelo proprietário, sem editar seus bytes. Fundos e proporções originais foram preservados. As extensões refletem os formatos reais (JPEG/WebP), apesar dos nomes .png no ZIP. `provenance.json` registra nomes originais, dimensões e hashes SHA-256.
 - `src/product-images.js` registra cada arquivo com suas dimensões e procedência. O componente usa `object-fit: contain` no catálogo, páginas de produto e carrinho. A montagem antiga foi retirada e não deve ser reutilizada.
 - A página oficial do Leave-in foi acessada com HTTP 200 nesta atualização. A estrutura da página e as instruções de uso serviram como referência: https://kalopscosmeticos.com.br/leave-in-kalops-vitamina-e-protecao-termica-e-solar-100ml/p. Os preços de atacado continuam os do catálogo fornecido.
 - Canal confirmado no material: Instagram `@kalopscosmeticos`. Sem telefone inventado.

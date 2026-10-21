@@ -1,18 +1,17 @@
-// Individual edits based on the five photographs supplied by the brand owner.
-// The inline attachments were processed with imagegen for a white background;
-// these are edited derivatives, not byte-for-byte copies or website downloads.
-// Never restore the old generated lineup or stretch/crop packaging in CSS.
-const photograph = id => ({
-  src: `/products/individual/${id}.png`,
-  width: 1254,
-  height: 1254,
-  source: 'Fotografia enviada pelo proprietário da Kalops',
-  treatment: 'Edição individual com imagegen para fundo branco',
+// Original photographs from the owner's orion.zip, copied without editing.
+// Extensions match the actual encoded formats; provenance.json records SHA-256 hashes.
+const photograph = (file, width, height, background = '#242424') => ({
+  src: `/products/originals/${file}`,
+  width,
+  height,
+  background,
+  source: 'Fotografia original enviada pelo proprietário da Kalops em orion.zip',
+  treatment: 'Nenhum; fundo, proporção e bytes originais preservados',
 });
 export const productImages = {
-  leave: photograph('leave'),
-  stone: photograph('stone'),
-  oleo: photograph('oleo'),
-  ice: photograph('ice'),
-  orion: photograph('orion'),
+  leave: photograph('leave.webp', 667, 1000),
+  stone: photograph('stone.jpg', 667, 1000),
+  oleo: photograph('oleo.jpg', 1000, 750),
+  ice: photograph('ice.jpg', 750, 1000),
+  orion: photograph('orion.webp', 1000, 1000, '#fff'),
 };
