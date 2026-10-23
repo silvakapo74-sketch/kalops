@@ -2,10 +2,11 @@
 // on simple static hosting. Netlify's _redirects handles unknown SPA routes.
 import {mkdir,readFile,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
+import {fileURLToPath} from 'node:url';
 import {products} from '../src/products.js';
 
 const shell=await readFile(new URL('../dist/index.html',import.meta.url),'utf8');
-const dist=resolve(new URL('../dist',import.meta.url).pathname);
+const dist=fileURLToPath(new URL('../dist',import.meta.url));
 for(const product of products){
   const directory=resolve(dist,'.'+product.path);
   await mkdir(directory,{recursive:true});

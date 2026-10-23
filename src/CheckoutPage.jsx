@@ -3,9 +3,9 @@ import Link from './StoreLink.jsx';
 import {ArrowLeft, ArrowUpRight, Check, LoaderCircle, LockKeyhole, ShoppingBag} from 'lucide-react';
 import ProductImage from './ProductImage.jsx';
 import './checkout.css';
+import CheckoutAddress from './CheckoutAddress.jsx';
 
 const money = value => value.toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
-const states = 'AC AL AP AM BA CE DF ES GO MA MT MS MG PA PB PR PE PI RJ RN RS RO RR SC SP SE TO'.split(' ');
 
 export default function CheckoutPage({cart, products, onSubmitted, onEdit}) {
   const selected = products.filter(p=>cart[p.id]);
@@ -60,7 +60,7 @@ export default function CheckoutPage({cart, products, onSubmitted, onEdit}) {
           </div>
         </fieldset>
         <fieldset disabled={busy}><legend>Para onde vai o pedido?</legend><p>Usaremos essas informações para consultar o frete.</p>
-          <div className="checkout-fields"><label>CEP<input name="cep" inputMode="numeric" autoComplete="postal-code" placeholder="00000-000" pattern="[0-9]{5}-?[0-9]{3}" maxLength={9} required/></label><label>Estado<select name="state" autoComplete="address-level1" defaultValue="" required><option value="" disabled>Selecione</option>{states.map(state=><option key={state}>{state}</option>)}</select></label><label className="wide">Cidade<input name="city" autoComplete="address-level2" minLength={2} maxLength={100} required/></label><label className="wide">Observações <span>(opcional)</span><textarea name="notes" rows={3} maxLength={1000} placeholder="Conte o que precisamos saber sobre seu pedido."/></label></div>
+          <div className="checkout-fields"><CheckoutAddress busy={busy}/><label className="wide">Observações <span>(opcional)</span><textarea name="notes" rows={3} maxLength={1000} placeholder="Conte o que precisamos saber sobre seu pedido."/></label></div>
         </fieldset>
         <label className="checkout-consent"><input name="consent" type="checkbox" required disabled={busy}/><span>Autorizo a Kalops a usar meus dados para atender este pedido e entrar em contato comigo. <Link to="/privacidade" target="_blank" rel="noreferrer">Como cuidamos dos seus dados</Link>.</span></label>
         {!valid&&<p className="checkout-error" role="alert">Cada produto deve ter entre 10 e 10.000 unidades. Ajuste as quantidades no pedido.</p>}
